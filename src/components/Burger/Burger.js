@@ -1,29 +1,45 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import classes from './Burger.css';
-import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
+import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 
-const burger = ( props ) => {
-    console.log(props);
-    let transformedIngredients = Object.keys( props.ingredients )
-        .map( igKey => {
-            return [...Array( props.ingredients[igKey] )].map( ( _, i ) => {
-                return <BurgerIngredient key={igKey + i} type={igKey} />;
-            } );
-        } )
-        .reduce((arr, el) => {
-            return arr.concat(el)
-        }, []);
-    if (transformedIngredients.length === 0) {
-        transformedIngredients = <p>Please start adding ingredients!</p>;
+class Checkout extends Component {
+    state = {
+        ingredients: {
+            salad: 1,
+            meat: 1,
+            cheese: 1,
+            bacon: 1
+        }
     }
-    return (
-        <div className={classes.Burger}>
-            <BurgerIngredient type="bread-top" />
-            {transformedIngredients}
-            <BurgerIngredient type="bread-bottom" />
-        </div>
-    );
-};
 
-export default burger;
+    componentDidMount() {
+        const query = new URLSearchParams(this.props.location.search);
+        const ingredients = {};
+        for (let param of query.entries()) {
+            // ['salad', '1']
+            ingredients[param[0]] = +param[1];
+        }
+        this.setState({ingredients: ingredients});
+    }
+
+    checkoutCancelledHandler = () => {
+        this.props.history.goBack();
+    }
+
+    checkoutContinuedHandler = () => {
+        this.props.history.replace('/checkout/contact-data');
+    }
+
+    render() {
+        return (
+            <div>
+                <CheckoutSummary 
+                    ingredients={this.state.ingredients}
+                    checkoutCancelled={this.checkoutCancelledHandler}
+                    checkoutContinued={this.checkoutContinuedHandler}/>
+            </div>
+        );
+    }
+}
+
+export default Checkout;
