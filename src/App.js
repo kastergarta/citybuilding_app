@@ -7,9 +7,7 @@ import Checkout from './containers/Checkout/Checkout';
 import Orders from './containers/Orders/Orders';
 
 class App extends Component {
-
   render () {
-
     return (
       <div>
         <Layout>
@@ -22,7 +20,6 @@ class App extends Component {
       </div>
     );
   }
-  
 }
 
 export default App;

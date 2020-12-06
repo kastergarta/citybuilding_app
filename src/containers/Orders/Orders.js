@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import Order from '../../components/Order/Order';
-
 import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 
@@ -10,7 +9,6 @@ class Orders extends Component {
         orders: [],
         loading: true
     }
-
 
     componentDidMount() {
         axios.get('/orders.json')
@@ -29,7 +27,6 @@ class Orders extends Component {
             });
     }
 
-
     render () {
         return (
             <div>
@@ -44,4 +41,4 @@ class Orders extends Component {
     }
 }
 
-export default withErrorHandler(Orders, axios);
+export default withErrorHandler(Orders, axios); 
